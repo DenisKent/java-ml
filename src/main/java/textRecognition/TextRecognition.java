@@ -1,27 +1,35 @@
 package textRecognition;
-//
-//public class TextRecognition {
-//    public static void main(String[] args) {
-//
-//    }
-//}
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.CvType;
-import org.opencv.core.Scalar;
+
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
+
+import java.io.File;
 
 public class TextRecognition {
-    // Compulsory
-    static{ System.loadLibrary(Core.NATIVE_LIBRARY_NAME); }
-
     public static void main(String[] args) {
-        System.out.println("Welcome to OpenCV " + Core.VERSION);
-        Mat m = new Mat(5, 10, CvType.CV_8UC1, new Scalar(0));
-        System.out.println("OpenCV Mat: " + m);
-        Mat mr1 = m.row(1);
-        mr1.setTo(new Scalar(1));
-        Mat mc5 = m.col(5);
-        mc5.setTo(new Scalar(5));
-        System.out.println("OpenCV Mat data:\n" + m.dump());
+        ITesseract image = new Tesseract();
+        image.setDatapath("C:\\Users\\Hypaman\\IdeaProjects\\OSRS\\tessdata");
+        try {
+            String str = image.doOCR(new File("C:\\Users\\Hypaman\\Pictures\\snapshot3.png"));
+            System.out.println("datta from Image is " + str);
+        } catch (TesseractException e) {
+            System.out.println("Exception details" + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
+
+// two helpful videos:
+// https://www.youtube.com/watch?v=6sdhCwfP-lg
+// https://www.youtube.com/watch?v=5DqW9KP-aQo&t=191s
+
+// extension, locate the text in the image before feeding it to tess4j:
+// https://www.pyimagesearch.com/2018/09/17/opencv-ocr-and-text-recognition-with-tesseract/
+// https://www.pyimagesearch.com/2018/08/20/opencv-text-detection-east-text-detector/
+
+
+//import org.opencv.core.Core;
+//import org.opencv.core.Mat;
+//import org.opencv.core.CvType;
+//import org.opencv.core.Scalar;
